@@ -14,9 +14,9 @@
 							<br />
 							<a href="" class="btn btn-primary submit-comment" data-role="{{this.article_id}}">Leave Comment</a>
 						</div>
-						<div class="comments-display">
+						<div class="comments-display" data-role="{{this.article_id}}">
 							{{#each this.comments}}
-							<p>{{this.comment}}
+							<p class="{{this.posted}}">{{this.comment}}
 							<br />
 							<a href="" class="btn btn-danger delete-comment" data-role="{{this.posted}}">Delete Comment</a></p>
 							{{/each}}

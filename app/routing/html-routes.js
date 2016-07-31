@@ -118,7 +118,7 @@ module.exports = function(app) {
 
 	}); // end app.get('/')
 
-	// submit
+	// submit comment
 	app.post('/submit', function(req, res) {
 
 		// store the comment object in a variable
@@ -134,5 +134,20 @@ module.exports = function(app) {
 		}); // end db.articles.update()
 
 	}); // end app.get('/submit')
+
+	// delete comment
+	app.post('/delete', function(req, res) {
+		
+		// set the comment to delete details in a variable
+		var comment_to_delete = req.body;
+
+		// delete the comment form the database
+		db.articles.update({"_id": (mongojs.ObjectId(comment_to_delete.article_id))}, {$pull: {comments: {posted: comment_to_delete.posted}}}, function(err, docs) {
+
+			console.log(docs);
+
+		}); // end db.articles.update()
+
+	}); // end app.post('/delete')
 
 } // end module.exports(app)
