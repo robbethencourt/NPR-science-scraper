@@ -68,43 +68,49 @@ module.exports = function(app) {
 
 			if (err) throw err;
 
-			// articles and comments array to pass to handlebars
+			// articles and comments array to pass to handlebars. comments array will be passed to the articles object
 			var articles_hb = [];
 			var comments_hb = [];
 
-			// article and comments objects to push to arrays listed above
+			// article objects to push to arrays listed above
 			var article_obj = {};
-			var comments_obj = {};
 
 			// loop through each of the returned docs from the database
 			docs.forEach(function(article, index, array) {
 
 				// emtpy out the object before each pass
 				article_obj = {};
-				comments_obj = {};
+
+				// empty the comments array for each article to start fresh
+				comments_hb = [];
+
+				// loop through each article's comments
+				article.comments.forEach(function(comment, c_index, c_array) {
+
+					// push the comment object into the comments array
+					comments_hb.push(comment);
+
+				}); // end article.comments.forEach()
 
 				// build the article and comments objects
 				article_obj = {
 					title: article.title,
 					href: article.href,
 					content: article.content,
-					article_id: article._id.toString()
+					article_id: article._id,
+					comments: comments_hb // this is an array of comment objects
 				};
-				comments_obj = {
-					comment: article.comments
-				}
+				
 
-				// push those created objects into the appropriate array
+				// push those created article objects into the aarticles array
 				articles_hb.push(article_obj);
-				comments_hb.push(comments_obj);
 
 			}); // end docs.forEach()
 
 			// render the index page and pass the data to handlebars
 			res.render('index',  {
 
-				articles: articles_hb,
-				comments: comments_hb
+				articles: articles_hb
 
 			}); // end res.render()
 			
@@ -115,13 +121,17 @@ module.exports = function(app) {
 	// submit
 	app.post('/submit', function(req, res) {
 
+		// store the comment object in a variable
 		var comment = req.body;
 
 		console.log(comment.comment, comment.posted, comment.article_id);
 
+		// update the database with the new comment
 		db.articles.update({"_id": (mongojs.ObjectId(comment.article_id))}, {$addToSet: {comments: {comment: comment.comment, posted: comment.posted}}}, function(err, docs) {
+
 			console.log(docs);
-		});
+
+		}); // end db.articles.update()
 
 	}); // end app.get('/submit')
 
