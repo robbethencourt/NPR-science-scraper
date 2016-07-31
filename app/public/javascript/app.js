@@ -17,8 +17,6 @@ function submitComment(article_id) {
 		article_id: article_id
 	}
 
-	console.log(comment_details);
-
 	// ajax post that adds comments to the database
 	$.ajax({
 		type: 'POST',
