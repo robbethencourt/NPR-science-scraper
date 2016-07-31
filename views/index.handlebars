@@ -1,0 +1,29 @@
+	<!-- articles -->
+	<div class="articles">
+		<div class="container">
+			{{#each articles}}
+			<div class="row">
+				<div class="col-md-8">
+					<article>
+						<div class="article-content">
+							<h2><a href="{{this.href}}">{{this.title}}</a></h2>
+							<p>{{this.content}}</p>
+						</div>
+						<div class="comment-submission">
+							<textarea id="comment-box"></textarea>
+							<br />
+							<a href="" class="btn btn-primary" id="submit-comment" data-role="{{this.article_id}}">Leave Comment</a>
+						</div>
+						<div class="comments-display">
+							{{#each comments}}
+							<p>{{this.comment}}
+							<br />
+							<a href="" class="btn btn-danger" id="delete-comment-{{this.id}}">Delete Comment</a></p>
+							{{/each}}
+						</div>
+					</article>
+				</div>
+			</div>
+			{{/each}}
+		</div>
+	</div>
