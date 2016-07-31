@@ -6,11 +6,6 @@ var app = express();
 var PORT = process.env.PORT || 3000;
 
 
-// Require request and cheerio. This makes the scraping possible
-var request = require('request');
-var cheerio = require('cheerio');
-
-
 // Database configuration
 var mongojs = require('mongojs');
 var databaseUrl = "nprnews";
