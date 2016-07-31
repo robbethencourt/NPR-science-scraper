@@ -10,15 +10,15 @@
 							<p>{{this.content}}</p>
 						</div>
 						<div class="comment-submission">
-							<textarea id="comment-box"></textarea>
+							<textarea class="comment-box" data-role="{{this.article_id}}"></textarea>
 							<br />
-							<a href="" class="btn btn-primary" id="submit-comment" data-role="{{this.article_id}}">Leave Comment</a>
+							<a href="" class="btn btn-primary submit-comment" data-role="{{this.article_id}}">Leave Comment</a>
 						</div>
 						<div class="comments-display">
-							{{#each comments}}
+							{{#each this.comments}}
 							<p>{{this.comment}}
 							<br />
-							<a href="" class="btn btn-danger" id="delete-comment-{{this.id}}">Delete Comment</a></p>
+							<a href="" class="btn btn-danger delete-comment" data-role="{{this.posted}}">Delete Comment</a></p>
 							{{/each}}
 						</div>
 					</article>
