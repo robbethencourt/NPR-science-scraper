@@ -10,9 +10,9 @@
 							<p>{{this.content}}</p>
 						</div>
 						<div class="comment-submission">
-							<textarea id="comment-box"></textarea>
+							<textarea class="comment-box" data-role="{{this.article_id}}"></textarea>
 							<br />
-							<a href="" class="btn btn-primary" id="submit-comment" data-role="{{this.article_id}}">Leave Comment</a>
+							<a href="" class="btn btn-primary submit-comment" data-role="{{this.article_id}}">Leave Comment</a>
 						</div>
 						<div class="comments-display">
 							{{#each comments}}

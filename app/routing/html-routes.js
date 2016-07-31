@@ -13,6 +13,7 @@ db.on('error', function(err) {
   console.log('Database Error:', err);
 });
 
+
 module.exports = function(app) {
 	
 	// home page
@@ -110,5 +111,18 @@ module.exports = function(app) {
 		}); // end db.articles.find()
 
 	}); // end app.get('/')
+
+	// submit
+	app.post('/submit', function(req, res) {
+
+		var comment = req.body;
+
+		console.log(comment.comment, comment.posted, comment.article_id);
+
+		db.articles.update({"_id": (mongojs.ObjectId(comment.article_id))}, {$addToSet: {comments: {comment: comment.comment, posted: comment.posted}}}, function(err, docs) {
+			console.log(docs);
+		});
+
+	}); // end app.get('/submit')
 
 } // end module.exports(app)

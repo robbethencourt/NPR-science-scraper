@@ -6,6 +6,13 @@ var app = express();
 var PORT = process.env.PORT || 3000;
 
 
+// body-parser
+var bodyParser = require('body-parser');
+app.use(bodyParser.urlencoded({
+	extended: false
+}));
+
+
 // access to the public folder
 app.use(express.static('app/public'));
 
