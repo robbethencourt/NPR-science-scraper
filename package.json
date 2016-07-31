@@ -1,0 +1,29 @@
+{
+  "name": "npr-science-scraper",
+  "version": "1.0.0",
+  "description": "site that scrapes NPR's science section for articles to display and comment on",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/robbethencourt/NPR-science-scraper.git"
+  },
+  "author": "Robert Bethencourt",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/robbethencourt/NPR-science-scraper/issues"
+  },
+  "homepage": "https://github.com/robbethencourt/NPR-science-scraper#readme",
+  "dependencies": {
+    "body-parser": "^1.15.2",
+    "cheerio": "^0.20.0",
+    "express": "^4.14.0",
+    "express-handlebars": "^3.0.0",
+    "gulp": "^3.9.1",
+    "gulp-sass": "^2.3.2",
+    "mongojs": "^2.4.0",
+    "request": "^2.74.0"
+  }
+}
