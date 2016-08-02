@@ -19,7 +19,7 @@ module.exports = function(app) {
 	// home page
 	app.get('/', function(req, res) {
 
-		// requesting the npr science news page
+		// requesting the npr science news page and displaying the articles to the screen
 		request('http://www.npr.org/sections/science/', function(error, response, html) {
 
 			if (error) throw error;
@@ -87,8 +87,15 @@ module.exports = function(app) {
 				// loop through each article's comments
 				article.comments.forEach(function(comment, c_index, c_array) {
 
+					console.log(comment);
+
 					// push the comment object into the comments array
 					comments_hb.push(comment);
+
+					// sort the comments to the most recent ones appear at the top
+					comments_hb.sort(function(a, b) {
+						return b.posted - a.posted;
+					});
 
 				}); // end article.comments.forEach()
 
@@ -101,7 +108,6 @@ module.exports = function(app) {
 					comments: comments_hb // this is an array of comment objects
 				};
 				
-
 				// push those created article objects into the aarticles array
 				articles_hb.push(article_obj);
 
