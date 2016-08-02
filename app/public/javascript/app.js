@@ -33,6 +33,18 @@ function submitComment(article_id) {
 
 	}); // end ajax(/submit)
 
+	var comments_display = $('.comments-display[data-role="' + article_id + '"]');
+	var comment_div = $('<div class="comment-container">');
+	var comment_p = $('<p>' + comment + '</p>').attr('class', comment_details.posted);
+	var comment_delete_btn = $('<a class="btn btn-danger delete-comment">Delete Comment</a>').data('role', comment_details.posted);
+
+	
+	$(comment_p).appendTo(comment_div);
+	$(comment_delete_btn).appendTo(comment_div);
+	$(comment_div).prependTo(comments_display);
+
+	console.log(comments_display);
+
 } // end submitComment()
 
 // delete comment
