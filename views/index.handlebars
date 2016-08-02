@@ -16,9 +16,10 @@
 						</div>
 						<div class="comments-display" data-role="{{this.article_id}}">
 							{{#each this.comments}}
-							<p class="{{this.posted}}">{{this.comment}}
-							<br />
-							<a href="" class="btn btn-danger delete-comment" data-role="{{this.posted}}">Delete Comment</a></p>
+							<div class="comment-container" data-role={{this.posted}}>
+								<p class="{{this.posted}}">{{this.comment}}</p>
+								<a href="" class="btn btn-danger delete-comment" data-role="{{this.posted}}">Delete Comment</a>
+							</div>
 							{{/each}}
 						</div>
 					</article>

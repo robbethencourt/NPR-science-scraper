@@ -28,10 +28,21 @@ function submitComment(article_id) {
 		
 		console.log(data);
 
-		// empties out the comment textarea once the comment has been submitted
-		$(comment_box).val('');
-
 	}); // end ajax(/submit)
+
+	// build the comments display div, p and a elements for the comment the user just submitted
+	var comments_display = $('.comments-display[data-role="' + article_id + '"]');
+	var comment_div = $('<div class="comment-container">').attr('data-role', comment_details.posted);
+	var comment_p = $('<p>' + comment + '</p>').attr('class', comment_details.posted);
+	var comment_delete_btn = $('<a href="" class="btn btn-danger delete-comment">Delete Comment</a>').attr('data-role', comment_details.posted);
+
+	// append the elements to each other and to the containing comments-display div at the top of the comments section
+	$(comment_p).appendTo(comment_div);
+	$(comment_delete_btn).appendTo(comment_div);
+	$(comment_div).prependTo(comments_display);
+
+	// empties out the comment textarea once the comment has been submitted
+	$(comment_box).val('');
 
 } // end submitComment()
 
@@ -57,6 +68,12 @@ function deleteComment(posted_time, article_id) {
 
 	}); // end ajax(/delete)
 
+	// grab the comment-container div to remove once the user has clicked the delete comment button
+	var comment_del_quick = $('.comment-container[data-role="' + posted_time + '"]');
+
+	// remove that div, which takes the comment and button with it
+	$(comment_del_quick).remove();
+
 } // end deleteComment()
 
 
@@ -76,8 +93,8 @@ $('.submit-comment').on('click', function() {
 
 }); // end submit-comment.on()
 
-// delete comment
-$('.delete-comment').on('click', function() {
+// delete comment. had to call on containing div so that dynammically added comments can be deleted
+$('.comments-display').on('click', '.delete-comment', function() {
 
 	// grab the posted time for this comment and the article id
 	var posted_time = $(this).attr('data-role');
