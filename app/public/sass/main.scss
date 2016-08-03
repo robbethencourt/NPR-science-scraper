@@ -1,0 +1,137 @@
+/* global styles */
+
+h2 {
+	margin: 30px 0 0 0;
+}
+
+h5 {
+	margin-bottom: 30px;
+	color: #aaa;
+	font-weight: bold;
+}
+
+$a_link: #48C5F0;
+$a_hover_link: #459DBA;
+
+a:link, a:visited {
+	color: $a_link;
+}
+
+a:hover, a:focus {
+	color: $a_hover_link;
+}
+
+
+/* content */
+
+article {
+	padding: 0 0 50px 0;
+	margin-bottom: 20px;
+	border-bottom: 1px solid #ccc;
+}
+
+/* h2 heading */
+$h_font: georgia, serif;
+$h_link_color: #555;
+$h_link_hover_color: #222;
+
+h2 {
+
+	font-family: h_font;
+	font-weight: bold;
+
+	a:link, a:visited {
+		color: $h_link_color;
+	}
+
+	a:hover, a:focus {
+		color: $h_link_hover_color;
+	}
+
+}
+
+/* paragraph styles */
+$p_color: #555;
+$p_font: arial, sans-serif;
+
+p.p-content {
+	margin-bottom: 30px;
+	color: $p_color;
+	font-family: $p_font;
+	line-height: 2em;
+}
+
+
+
+
+/* comments */
+
+/* comment box to type in */
+.comment-box {
+	padding: 5px;
+	margin-bottom: 10px;
+	width: 300px;
+	height: 75px;
+	border: none;
+	resize: none; /* gets rid of the bottom right corner lines */
+	color: $p_color;
+	background: #ddd;
+}
+
+/* submit comment button */
+a:link.submit-comment, a:visited.submit-comment {
+	transition: .3s;
+	border-radius: 0;
+	margin-bottom: 30px;
+	border: none;
+	color: #fff;
+	font-weight: bold;
+	background: $h_link_color;
+}
+
+a:hover.submit-comment, a:focus.submit-comment {
+	transition: .3s;
+	background: $a_link;
+}
+
+.comment-container {
+	width: 100%;
+	clear: left;
+	overflow: hidden;
+}
+
+.comment-container:hover .delete-button-container {
+	transition: .3s;
+	margin-left: 0;
+}
+
+.comment-container:hover .comment {
+	transition: .3s;
+	margin-left: 10px;
+}
+
+	.comment {
+		transition: .3s;
+		float: left;
+		margin-left: 0;
+	}
+
+	.delete-button-container {
+		float: left;
+		transition: .3s;
+		margin-left: -100px;
+	}
+
+		a.delete-comment:link, a.delete-comment:visited {
+			padding: 10px;
+			border-radius: 0;
+			border: none;
+			color: #fff;
+		}
+
+	.p-time {
+		margin-top: -10px;
+		color: #aaa;
+		font-size: 1em;
+		font-weight: bold;
+	}
