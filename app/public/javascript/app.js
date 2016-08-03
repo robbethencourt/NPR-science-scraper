@@ -79,42 +79,44 @@ function deleteComment(posted_time, article_id) {
 // convert the time passed form handlebars into something humans can understand
 function timeConverter() {
 
-	var time_array = [];
-
+	// loop over each of the span elements that display the miliseconds from the database
 	$('span').each(function(i, el) {
 
+		// store the actual integer in a variable
 		var db_time = $(el).text();
 
+		// set the formatEachTime function to a variable so I can pass the returned formatted time to the page
 		var time_to_display = formatEachTime(db_time);
 
+		// enter the returned time to the same span element we got the original miliseconds from
 		$(this).text(time_to_display);
 
-		// time_array.push($(el).text());
-	});
+	}); // end timeConverter()
 
+	// convert miliseconds to hours and minutes
 	function formatEachTime(miliseconds) {
 
-			var time_now = Date.now();
+		// grab the current time
+		var time_now = Date.now();
 
-			var time_dif = Math.floor((time_now - miliseconds) / 60000);
+		// get the differential from the current time to the miliseconds passed from the database
+		var time_dif = Math.floor((time_now - miliseconds) / 60000);
 
-			if (time_dif > 60) {
+		// if the elapaed time is greater than 60 minutes
+		if (time_dif > 60) {
 
-				var hours = Math.floor(time_dif / 60);
+			// set the hours and minutes in separate variables
+			var hours = Math.floor(time_dif / 60);
+			var min = time_dif % 60;
 
-				var min = time_dif % 60;
+			// set the time_dif variable to the reformatted hours and minutes
+			time_dif = hours + ':' + min;
+		} // end if
 
-				time_dif = hours + ':' + min;
-			}
+		// return the time differential in an integer we can pass to the screen
+		return time_dif;
 
-
-			return time_dif;
-
-	}
-
-	
-
-	// console.log(formatted_time);
+	} // end formatEachTime()
 
 } // end timeConverter()
 
