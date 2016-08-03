@@ -8,7 +8,7 @@ h5 {
   font-weight: bold; }
 
 a:link, a:visited {
-  color: #5CD6FF; }
+  color: #48C5F0; }
 
 a:hover, a:focus {
   color: #459DBA; }
@@ -60,7 +60,7 @@ a:link.submit-comment, a:visited.submit-comment {
 
 a:hover.submit-comment, a:focus.submit-comment {
   transition: .3s;
-  background: #5CD6FF; }
+  background: #48C5F0; }
 
 .comment-container {
   width: 100%;
