@@ -59,7 +59,7 @@ module.exports = function(app) {
 					}
 
 					// update the db with articles
-					db.articles.update(article, article, {upsert: true}, function(err, saved) {
+					db.articles.update({title: title}, article, {upsert: true}, function(err, saved) {
 						
 						if (err) throw err;
 
