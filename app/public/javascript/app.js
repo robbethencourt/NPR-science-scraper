@@ -76,6 +76,48 @@ function deleteComment(posted_time, article_id) {
 
 } // end deleteComment()
 
+// convert the time passed form handlebars into something humans can understand
+function timeConverter() {
+
+	var time_array = [];
+
+	$('span').each(function(i, el) {
+
+		var db_time = $(el).text();
+
+		var time_to_display = formatEachTime(db_time);
+
+		$(this).text(time_to_display);
+
+		// time_array.push($(el).text());
+	});
+
+	function formatEachTime(miliseconds) {
+
+			var time_now = Date.now();
+
+			var time_dif = Math.floor((time_now - miliseconds) / 60000);
+
+			if (time_dif > 60) {
+
+				var hours = Math.floor(time_dif / 60);
+
+				var min = time_dif % 60;
+
+				time_dif = hours + ':' + min;
+			}
+
+
+			return time_dif;
+
+	}
+
+	
+
+	// console.log(formatted_time);
+
+} // end timeConverter()
+
 
 // click handlers
 
@@ -107,3 +149,7 @@ $('.comments-display').on('click', '.delete-comment', function() {
 	return false;
 
 }); // end delete-comment.on()
+
+
+// function invocations
+timeConverter();

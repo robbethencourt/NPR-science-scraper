@@ -36,7 +36,11 @@ module.exports = function(app) {
 				// grab the title, href and content of each article
 				var title = $(this).find('h2.title').text();
 				var href = $(this).find('a').attr('href');
+				var slug = $(this).find('.slug').text();
+				var affiliation = $(this).find('.affiliation').text();
 				var content = $(this).find('p.teaser').text();
+
+				console.log(slug, affiliation);
 
 				// only add article elements that have content for a title
 				if (title !== '') {
@@ -44,6 +48,8 @@ module.exports = function(app) {
 					article = {
 						title: title,
 						href: href,
+						slug: slug,
+						affiliation: affiliation,
 						content: content,
 						comments: []
 					}
@@ -103,6 +109,8 @@ module.exports = function(app) {
 				article_obj = {
 					title: article.title,
 					href: article.href,
+					slug: article.slug,
+					affiliation: article.affiliation,
 					content: article.content,
 					article_id: article._id,
 					comments: comments_hb // this is an array of comment objects
