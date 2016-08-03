@@ -19,12 +19,6 @@ module.exports = function(app) {
 	// home page
 	app.get('/', function(req, res) {
 
-		/**************************
-		refactor ideas:
-		get the cheerio $ to pass to get article function
-		build article to pass to another function that updates database
-		***************************/
-
 		// requesting the npr science news page and displaying the articles to the screen
 		request('http://www.npr.org/sections/science/', function(error, response, html) {
 

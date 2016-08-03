@@ -3,13 +3,6 @@
 // submit comment
 function submitComment(article_id) {
 
-	/*********************
-	refactor ideas:
-	build the comments details into a function
-	ajax call another function
-	build and display the live comments
-	********************/
-
 	// get the textarea element and the comment and store in a variable
 	var comment_box = $('.comment-box[data-role="' + article_id + '"]');
 	var comment = $(comment_box).val();
