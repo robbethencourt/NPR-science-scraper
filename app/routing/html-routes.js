@@ -19,6 +19,12 @@ module.exports = function(app) {
 	// home page
 	app.get('/', function(req, res) {
 
+		/**************************
+		refactor ideas:
+		get the cheerio $ to pass to get article function
+		build article to pass to another function that updates database
+		***************************/
+
 		// requesting the npr science news page and displaying the articles to the screen
 		request('http://www.npr.org/sections/science/', function(error, response, html) {
 
@@ -63,8 +69,8 @@ module.exports = function(app) {
 
 		}); // end request()
 
-		// find each of the articles in the database
-		db.articles.find({}, function(err, docs) {
+		// find each of the articles in the database and sort so that most recent appear at the top
+		db.articles.find({}).sort({_id: 1}, function(err, docs) {
 
 			if (err) throw err;
 
