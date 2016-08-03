@@ -42,10 +42,9 @@ module.exports = function(app) {
 				var affiliation_href = $(this).find('.affiliation a').attr('href');
 				var content = $(this).find('p.teaser').text();
 
-				console.log(slug_href, affiliation_href);
-
 				// only add article elements that have content for a title
 				if (title !== '') {
+					
 					// build the article object
 					article = {
 						title: title,
@@ -58,14 +57,24 @@ module.exports = function(app) {
 						comments: []
 					}
 
-					// update the db with articles
-					db.articles.update({title: title}, article, {upsert: true}, function(err, saved) {
+					// I tried to get upsert true going, but no. I had to go query the db to be sure the title isn't there before I add it
+					db.articles.find({title: article.title}, function(error, doccheck) {
 						
-						if (err) throw err;
+						// if the title isn't already in the db
+						if (doccheck[0].title != article.title) {
 
-						console.log(saved);
+							// insert the article into the db
+							db.articles.insert(article, function(err, saved) {
+								
+								if (err) throw err;
 
-					}); // end db.articles.update()
+								console.log(saved);
+
+							}); // end db.articles.update()
+
+						} // end if
+
+					}); // end db.articles.find()
 
 				} // end if
 
@@ -94,20 +103,26 @@ module.exports = function(app) {
 				// empty the comments array for each article to start fresh
 				comments_hb = [];
 
-				// loop through each article's comments
-				article.comments.forEach(function(comment, c_index, c_array) {
+				if (article.comments) {
 
-					console.log(comment);
+					// loop through each article's comments
+					article.comments.forEach(function(comment, c_index, c_array) {
 
-					// push the comment object into the comments array
-					comments_hb.push(comment);
+						// console.log(comment);
 
-					// sort the comments to the most recent ones appear at the top
-					comments_hb.sort(function(a, b) {
-						return b.posted - a.posted;
-					});
+						// push the comment object into the comments array
+						comments_hb.push(comment);
 
-				}); // end article.comments.forEach()
+						// sort the comments to the most recent ones appear at the top
+						comments_hb.sort(function(a, b) {
+							return b.posted - a.posted;
+						});
+
+					}); // end article.comments.forEach()
+
+				}
+
+				
 
 				// build the article and comments objects
 				article_obj = {
