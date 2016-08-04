@@ -1,8 +1,3 @@
-// Require request and cheerio. This makes the scraping possible
-var request = require('request');
-var cheerio = require('cheerio');
-
-
 // Database configuration
 var mongojs = require('mongojs');
 var databaseUrl = "nprnews";
@@ -14,142 +9,90 @@ db.on('error', function(err) {
 });
 
 
+// require the articles logic being set to the database
+var load_articles = require('../models/articles.js');
+// get those articles into the db if they aren't already there
+load_articles();
+
+
+// routes
 module.exports = function(app) {
 	
 	// home page
 	app.get('/', function(req, res) {
 
-		// requesting the npr science news page and displaying the articles to the screen
-		request('http://www.npr.org/sections/science/', function(error, response, html) {
+		function displayDataToScreen() {
 
-			if (error) throw error;
-		
-			// Load the html into cheerio and save it to a var
-			var $ = cheerio.load(html);
+			// find each of the articles in the database and sort so that most recent appear at the top
+			db.articles.find({}).sort({_id: 1}, function(err, docs) {
 
-			// loop through each article
-			$('article').each(function(i, element) {
+				if (err) throw err;
 
-				// declare an empty object to pass to mongo
-				var article = {};
+				// articles and comments array to pass to handlebars. comments array will be passed to the articles object
+				var articles_hb = [];
+				var comments_hb = [];
 
-				// grab the title, href and content of each article
-				var title = $(this).find('h2.title').text();
-				var href = $(this).find('a').attr('href');
-				var slug = $(this).find('.slug').text();
-				var slug_href = $(this).find('.slug a').attr('href');
-				var affiliation = $(this).find('.affiliation').text();
-				var affiliation_href = $(this).find('.affiliation a').attr('href');
-				var content = $(this).find('p.teaser').text();
+				// article objects to push to arrays listed above
+				var article_obj = {};
 
-				// only add article elements that have content for a title
-				if (title !== '') {
+				// loop through each of the returned docs from the database
+				docs.forEach(function(article, index, array) {
+
+					// emtpy out the object before each pass
+					article_obj = {};
+
+					// empty the comments array for each article to start fresh
+					comments_hb = [];
+
+					if (article.comments) {
+
+						// loop through each article's comments
+						article.comments.forEach(function(comment, c_index, c_array) {
+
+							// console.log(comment);
+
+							// push the comment object into the comments array
+							comments_hb.push(comment);
+
+							// sort the comments to the most recent ones appear at the top
+							comments_hb.sort(function(a, b) {
+								return b.posted - a.posted;
+							});
+
+						}); // end article.comments.forEach()
+
+					} // end if
+
+					// build the article and comments objects
+					article_obj = {
+						title: article.title,
+						href: article.href,
+						slug: article.slug,
+						slug_href: article.slug_href,
+						affiliation: article.affiliation,
+						affiliation_href: article.affiliation_href,
+						content: article.content,
+						article_id: article._id,
+						comments: comments_hb // this is an array of comment objects
+					};
 					
-					// build the article object
-					article = {
-						title: title,
-						href: href,
-						slug: slug,
-						slug_href: slug_href,
-						affiliation: affiliation,
-						affiliation_href: affiliation_href,
-						content: content,
-						comments: []
-					}
+					// push those created article objects into the aarticles array
+					articles_hb.push(article_obj);
 
-					// I tried to get upsert true going, but no. I had to go query the db to be sure the title isn't there before I add it
-					db.articles.find({title: article.title}, function(error, doccheck) {
-						
-						// if the title isn't already in the db
-						if (doccheck[0].title != article.title) {
+				}); // end docs.forEach()
 
-							// insert the article into the db
-							db.articles.insert(article, function(err, saved) {
-								
-								if (err) throw err;
+				// render the index page and pass the data to handlebars
+				res.render('index',  {
 
-								console.log(saved);
+					articles: articles_hb
 
-							}); // end db.articles.update()
-
-						} // end if
-
-					}); // end db.articles.find()
-
-				} // end if
-
-			}); // end article.each()
-
-		}); // end request()
-
-		// find each of the articles in the database and sort so that most recent appear at the top
-		db.articles.find({}).sort({_id: 1}, function(err, docs) {
-
-			if (err) throw err;
-
-			// articles and comments array to pass to handlebars. comments array will be passed to the articles object
-			var articles_hb = [];
-			var comments_hb = [];
-
-			// article objects to push to arrays listed above
-			var article_obj = {};
-
-			// loop through each of the returned docs from the database
-			docs.forEach(function(article, index, array) {
-
-				// emtpy out the object before each pass
-				article_obj = {};
-
-				// empty the comments array for each article to start fresh
-				comments_hb = [];
-
-				if (article.comments) {
-
-					// loop through each article's comments
-					article.comments.forEach(function(comment, c_index, c_array) {
-
-						// console.log(comment);
-
-						// push the comment object into the comments array
-						comments_hb.push(comment);
-
-						// sort the comments to the most recent ones appear at the top
-						comments_hb.sort(function(a, b) {
-							return b.posted - a.posted;
-						});
-
-					}); // end article.comments.forEach()
-
-				}
-
+				}); // end res.render()
 				
+			}); // end db.articles.find()
 
-				// build the article and comments objects
-				article_obj = {
-					title: article.title,
-					href: article.href,
-					slug: article.slug,
-					slug_href: article.slug_href,
-					affiliation: article.affiliation,
-					affiliation_href: article.affiliation_href,
-					content: article.content,
-					article_id: article._id,
-					comments: comments_hb // this is an array of comment objects
-				};
-				
-				// push those created article objects into the aarticles array
-				articles_hb.push(article_obj);
+		} // end displayDataToScreen()
 
-			}); // end docs.forEach()
-
-			// render the index page and pass the data to handlebars
-			res.render('index',  {
-
-				articles: articles_hb
-
-			}); // end res.render()
-			
-		}); // end db.articles.find()
+		displayDataToScreen();
 
 	}); // end app.get('/')
 

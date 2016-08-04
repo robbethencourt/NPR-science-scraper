@@ -13,7 +13,18 @@ a:link, a:visited {
 a:hover, a:focus {
   color: #459DBA; }
 
+/* nav */
+.navbar {
+  background: #efefef; }
+
+.navbar-header {
+  margin-top: 5px;
+  font-weight: bold; }
+  .navbar-header img {
+    width: 50px; }
+
 /* content */
+/* article */
 article {
   padding: 0 0 50px 0;
   margin-bottom: 20px;
@@ -38,15 +49,22 @@ p.p-content {
 /* comments */
 /* comment box to type in */
 .comment-box {
+  transition: .3s;
+  transition-delay: .5s;
+  /* need this or event doesn't always fire once the button to Leave Comment is clicked */
   padding: 5px;
   margin-bottom: 10px;
   width: 300px;
-  height: 75px;
+  height: 35px;
   border: none;
   resize: none;
   /* gets rid of the bottom right corner lines */
   color: #555;
   background: #ddd; }
+
+.comment-box:focus {
+  transition: .3s;
+  height: 75px; }
 
 /* submit comment button */
 a:link.submit-comment, a:visited.submit-comment {
