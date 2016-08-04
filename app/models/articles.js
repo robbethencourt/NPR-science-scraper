@@ -5,10 +5,10 @@ var cheerio = require('cheerio');
 
 // Database configuration
 var mongojs = require('mongojs');
-var databaseUrl = "nprnews"; // nprnews
+var databaseUrl = "mongodb://heroku_wz71v7th:nvds2kqifsgo88c1rdug1hnv9d@ds145325.mlab.com:45325/heroku_wz71v7th"; // nprnews
 var collections = ["articles"];
 // Hook mongojs configuration to the db variable
-var db = mongojs('mongodb://heroku_wz71v7th:nvds2kqifsgo88c1rdug1hnv9d@ds145325.mlab.com:45325/heroku_wz71v7th');
+var db = mongojs(databaseUrl, collections);
 db.on('error', function(err) {
   console.log('Database Error:', err);
 });
