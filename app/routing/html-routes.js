@@ -57,11 +57,17 @@ module.exports = function(app) {
 						comments: []
 					}
 
-					// I tried to get upsert true going, but no. I had to go query the db to be sure the title isn't there before I add it
-					db.articles.find({title: article.title}, function(error, doccheck) {
-						
-						// if the title isn't already in the db
-						if (doccheck[0].title != article.title) {
+					// check if the title is in the database
+					db.articles.findOne({title: title}, function(error, doccheck) {
+
+						// if it is...
+						if (doccheck) {
+
+							// ...console it out
+							console.log('yes   ' + title);
+
+						// if it's not...
+						} else {
 
 							// insert the article into the db
 							db.articles.insert(article, function(err, saved) {
@@ -71,8 +77,8 @@ module.exports = function(app) {
 								console.log(saved);
 
 							}); // end db.articles.update()
-
-						} // end if
+						
+						} // end if else
 
 					}); // end db.articles.find()
 
