@@ -50,6 +50,8 @@ p.p-content {
 /* comment box to type in */
 .comment-box {
   transition: .3s;
+  transition-delay: .5s;
+  /* need this or event doesn't always fire once the button to Leave Comment is clicked */
   padding: 5px;
   margin-bottom: 10px;
   width: 300px;
