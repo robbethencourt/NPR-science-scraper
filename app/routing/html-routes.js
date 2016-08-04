@@ -3,7 +3,7 @@ var mongojs = require('mongojs');
 var databaseUrl = "nprnews";
 var collections = ["articles"];
 // Hook mongojs configuration to the db variable
-var db = mongojs(databaseUrl, collections);
+var db = mongojs('mongodb://heroku_wz71v7th:nvds2kqifsgo88c1rdug1hnv9d@ds145325.mlab.com:45325/heroku_wz71v7th');
 db.on('error', function(err) {
   console.log('Database Error:', err);
 });

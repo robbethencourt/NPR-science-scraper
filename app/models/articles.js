@@ -5,7 +5,7 @@ var cheerio = require('cheerio');
 
 // Database configuration
 var mongojs = require('mongojs');
-var databaseUrl = "nprnews";
+var databaseUrl = "nprnews"; // nprnews
 var collections = ["articles"];
 // Hook mongojs configuration to the db variable
 var db = mongojs('mongodb://heroku_wz71v7th:nvds2kqifsgo88c1rdug1hnv9d@ds145325.mlab.com:45325/heroku_wz71v7th');
