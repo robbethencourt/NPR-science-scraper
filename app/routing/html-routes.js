@@ -24,7 +24,7 @@ module.exports = function(app) {
 		function displayDataToScreen() {
 
 			// find each of the articles in the database and sort so that most recent appear at the top
-			db.articles.find({}).sort({_id: 1}, function(err, docs) {
+			db.articles.find({}).sort({_id: -1}, function(err, docs) {
 
 				if (err) throw err;
 
